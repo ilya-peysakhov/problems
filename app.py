@@ -47,8 +47,8 @@ def fetch_issues(name):
 
     try:
         raw_text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        st.subheader("🧪 Raw Gemini Response")
-        st.code(raw_text, language="json")
+        # st.subheader("🧪 Raw Gemini Response")
+        # st.code(raw_text, language="json")
 
         # Attempt to extract JSON from markdown or extra lines
         # Strip markdown and any wrapping code block
