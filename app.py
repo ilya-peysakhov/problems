@@ -116,7 +116,7 @@ if run_check and name:
                 labels={"count": "Issue"},
                 title="History of Issues",
             )
-            fig.update_traces(textposition="outside")
+            fig.update_traces(textposition="inside")
             fig.update_layout(xaxis_title="Date", yaxis_title="Issue Count")
             st.plotly_chart(fig, use_container_width=True)
 
