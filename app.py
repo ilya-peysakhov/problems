@@ -120,12 +120,12 @@ if run_check and name:
             hover_data=["description", "severity"],
             labels={"count": "Issue"},
             title="History of Issues",
+            height=1000
         )
         fig.update_traces(textposition="inside")
         fig.update_layout(xaxis_title="Date", yaxis_title="Issue Count")
         st.plotly_chart(fig, use_container_width=True)
 
-        with col2:
     else:
         st.info("✅ No issues found or no structured data returned.")
 
