@@ -100,7 +100,7 @@ if run_check and name:
     if issues:
         df = preprocess_issues(issues)
 
-        col1, col2, col3 = st.columns([1, 2, 2])
+        col1, col2, col3 = st.columns([1, 2, 1])
 
         with col1:
             st.metric("Total Issues", len(issues))
