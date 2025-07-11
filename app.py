@@ -112,7 +112,7 @@ if run_check and name:
          
         
         st.subheader("📊 Issue Timeline")
-        fig = px.bar(
+        fig = px.line(
             df,
             x="date",
             y="count",
@@ -122,7 +122,7 @@ if run_check and name:
             title="History of Issues",
             height=1000
         )
-        fig.update_traces(textposition="inside")
+        fig.update_traces(textposition="outside")
         fig.update_layout(xaxis_title="Date", yaxis_title="Issue Count")
         st.plotly_chart(fig, use_container_width=True)
 
