@@ -100,31 +100,32 @@ if run_check and name:
     if issues:
         df = preprocess_issues(issues)
 
-        col1, col2, col3 = st.columns([1, 2, 1])
+        col1, col2 = st.columns(2)
 
         with col1:
             st.metric("Total Issues", len(issues))
 
-        with col2:
-            st.subheader("📊 Issue Timeline")
-            fig = px.bar(
-                df,
-                x="date",
-                y="count",
-                text="description",
-                hover_data=["description", "severity"],
-                labels={"count": "Issue"},
-                title="History of Issues",
-            )
-            fig.update_traces(textposition="inside")
-            fig.update_layout(xaxis_title="Date", yaxis_title="Issue Count")
-            st.plotly_chart(fig, use_container_width=True)
-
-        with col3:
+        with col2:           
             risk_color, message = assess_risk(issues)
             st.subheader("🚨 Risk Assessment")
             st.markdown(f"### {risk_color}\n{message}")
+         
+        
+        st.subheader("📊 Issue Timeline")
+        fig = px.bar(
+            df,
+            x="date",
+            y="count",
+            text="description",
+            hover_data=["description", "severity"],
+            labels={"count": "Issue"},
+            title="History of Issues",
+        )
+        fig.update_traces(textposition="inside")
+        fig.update_layout(xaxis_title="Date", yaxis_title="Issue Count")
+        st.plotly_chart(fig, use_container_width=True)
 
+        with col2:
     else:
         st.info("✅ No issues found or no structured data returned.")
 
