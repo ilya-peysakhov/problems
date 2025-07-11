@@ -22,7 +22,7 @@ def fetch_issues(name):
     prompt = (
         f"List any known legal or problematic issues involving {name}. "
         "Provide each issue with a date and short description. "
-        "Respond ONLY with JSON in the following format:\n"
+        "Respond ONLY with valid JSON in the following format. Do not include any commentary, titles, or markdown:\n\n"
         "[\n"
         "  {\"date\": \"YYYY-MM-DD\", \"description\": \"...\", \"severity\": \"low|medium|high\"},\n"
         "  ...\n"
@@ -46,21 +46,23 @@ def fetch_issues(name):
         return []
 
     try:
-        text_output = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        issues = json.loads(text_output)
+        raw_text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
+        st.subheader("🧪 Raw Gemini Response")
+        st.code(raw_text, language="json")
+
+        # Attempt to extract JSON from markdown or extra lines
+        # Strip markdown and any wrapping code block
+        if raw_text.startswith("```json"):
+            raw_text = raw_text.strip("```json").strip("```").strip()
+        elif raw_text.startswith("```"):
+            raw_text = raw_text.strip("```").strip()
+
+        # Parse the JSON
+        issues = json.loads(raw_text)
         return issues
     except Exception as e:
-        st.error("❌ Could not parse response from Gemini.")
+        st.error(f"❌ Could not parse response from Gemini: {e}")
         return []
-
-def assess_risk(issues):
-    count = len(issues)
-    if count == 0:
-        return "🟢 Green", "No known issues."
-    elif count < 3:
-        return "🟡 Yellow", "Some minor issues."
-    else:
-        return "🔴 Red", "Multiple or severe issues detected."
 
 def preprocess_issues(issues):
     df = pd.DataFrame(issues)
