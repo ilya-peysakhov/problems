@@ -71,7 +71,18 @@ def preprocess_issues(issues):
     df.sort_values("date", inplace=True)
     df["count"] = 1
     return df
+    
+def assess_risk(issues):
+    count = len(issues)
 
+    high_severity = sum(1 for i in issues if i.get("severity", "").lower() == "high")
+
+    if count == 0:
+        return "🟢 Green", "No known issues."
+    elif high_severity > 0 or count >= 5:
+        return "🔴 Red", "Multiple or severe issues detected."
+    else:
+        return "🟡 Yellow", "Some minor issues found."
 # -------------------------
 # Streamlit App
 # -------------------------
