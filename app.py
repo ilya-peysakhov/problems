@@ -122,7 +122,7 @@ if run_check and name:
             hover_data=["description", "severity"],
             labels={"count": "Issue Count"},
             title="History of Issues",
-            height=1000,
+            height=500,
             size_max=15
         )
         
