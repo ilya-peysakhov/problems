@@ -114,36 +114,24 @@ if run_check and name:
          
         
         st.subheader("📊 Issue Timeline")
-        
         fig = px.line(
-            df,
-            x="date",
-            y="count",
-            hover_data=["description", "severity"],
-            labels={"count": "Issue Count", "date": "Date"},
-            title="📊 History of Issues Over Time",
-            height=1000,
-            line_shape='spline',  # Smooth curves
-            markers=True  # Add markers to data points
-        )
-        
-        # Enhanced styling
+                df,
+                x="date",
+                y="count",
+                hover_data=["description", "severity"],
+                labels={"count": "Issue Count"},
+                title="History of Issues",
+                height=1000,
+                markers=True
+            )
+    
+        # Make annotations readable
         fig.update_traces(
-            line=dict(width=4, color='#FF6B6B'),  # Thicker line with vibrant color
-            marker=dict(
-                size=10,
-                color='#4ECDC4',
-                line=dict(width=2, color='#FFFFFF'),
-                symbol='circle'
-            ),
-            hovertemplate='<b>Date:</b> %{x}<br>' +
-                          '<b>Issue Count:</b> %{y}<br>' +
-                          '<b>Description:</b> %{customdata[0]}<br>' +
-                          '<b>Severity:</b> %{customdata[1]}<br>' +
-                          '<extra></extra>'
+            marker=dict(size=8),
+            line=dict(width=3)
         )
         
-        # Add text annotations for descriptions
+        # Add text annotations
         fig.add_trace(
             go.Scatter(
                 x=df['date'],
@@ -151,86 +139,23 @@ if run_check and name:
                 mode='text',
                 text=df['description'],
                 textposition="top center",
-                textfont=dict(
-                    size=11,
-                    color='#2C3E50',
-                    family="Arial, sans-serif"
-                ),
+                textfont=dict(size=10, color='#2C3E50'),
                 showlegend=False,
                 hoverinfo='skip'
             )
         )
         
-        # Enhanced layout styling
+        # Clean layout
         fig.update_layout(
-            # Title styling
-            title=dict(
-                text="📊 History of Issues Over Time",
-                x=0.5,
-                xanchor='center',
-                font=dict(size=28, color='#2C3E50', family="Arial Black, sans-serif"),
-                pad=dict(t=20, b=20)
-            ),
-            
-            # Background and grid
-            plot_bgcolor='rgba(248, 249, 250, 0.8)',
-            paper_bgcolor='white',
-            
-            # Axes styling
-            xaxis=dict(
-                title=dict(
-                    text="📅 Date",
-                    font=dict(size=16, color='#34495E', family="Arial, sans-serif")
-                ),
-                showgrid=True,
-                gridwidth=1,
-                gridcolor='rgba(128, 128, 128, 0.2)',
-                showline=True,
-                linewidth=2,
-                linecolor='#BDC3C7',
-                tickfont=dict(size=12, color='#2C3E50')
-            ),
-            
-            yaxis=dict(
-                title=dict(
-                    text="🔢 Issue Count",
-                    font=dict(size=16, color='#34495E', family="Arial, sans-serif")
-                ),
-                showgrid=True,
-                gridwidth=1,
-                gridcolor='rgba(128, 128, 128, 0.2)',
-                showline=True,
-                linewidth=2,
-                linecolor='#BDC3C7',
-                tickfont=dict(size=12, color='#2C3E50'),
-                zeroline=True,
-                zerolinecolor='rgba(128, 128, 128, 0.4)',
-                zerolinewidth=2
-            ),
-            
-            # Hover styling
-            hoverlabel=dict(
-                bgcolor="white",
-                bordercolor="#2C3E50",
-                font_size=14,
-                font_family="Arial, sans-serif"
-            ),
-            
-            # Margin adjustments for better text visibility
-            margin=dict(l=60, r=60, t=100, b=60),
-            
-            # Add subtle shadow effect
-            shapes=[
-                dict(
-                    type="rect",
-                    xref="paper", yref="paper",
-                    x0=0, y0=0, x1=1, y1=1,
-                    fillcolor="rgba(0,0,0,0.02)",
-                    layer="below",
-                    line_width=0
-                )
-            ]
+            xaxis_title="Date",
+            yaxis_title="Issue Count",
+            margin=dict(t=80, b=40),  # Extra top margin for text
+            plot_bgcolor='rgba(0,0,0,0)',
+            showlegend=False
         )
+        
+        st.plotly_chart(fig, use_container_width=True)
+    
 
     else:
         st.info("✅ No issues found or no structured data returned.")
