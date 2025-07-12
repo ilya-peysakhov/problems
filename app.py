@@ -115,24 +115,17 @@ if run_check and name:
          
         
         st.subheader("📊 Issue Timeline")
-        fig = px.line(
-                df,
-                x="date",
-                y="count",
-                hover_data=["description", "severity"],
-                labels={"count": "Issue Count"},
-                title="History of Issues",
-                height=500,
-                markers=True
-            )
-    
-        # Make annotations readable
-        fig.update_traces(
-            marker=dict(size=8),
-            line=dict(width=3)
+        fig = px.bar(
+            df,
+            x="date",
+            y="count",
+            hover_data=["description", "severity"],
+            labels={"count": "Issue Count"},
+            title="History of Issues",
+            height=1000
         )
-        
-        # Add text annotations
+
+        # Add angled text annotations
         fig.add_trace(
             go.Scatter(
                 x=df['date'],
@@ -140,7 +133,8 @@ if run_check and name:
                 mode='text',
                 text=df['description'],
                 textposition="top center",
-                textfont=dict(size=10, color='#2C3E50'),
+                textfont=dict(size=14, color='#2C3E50'),
+                textangle=45,  # Angle the text for better readability
                 showlegend=False,
                 hoverinfo='skip'
             )
