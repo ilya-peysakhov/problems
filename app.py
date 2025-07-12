@@ -124,21 +124,24 @@ if run_check and name:
             title="History of Issues",
             height=1000
         )
-
-        # Add angled text annotations
-        fig.add_trace(
-            go.Scatter(
-                x=df['date'],
-                y=df['count'],
-                mode='text',
-                text=df['description'],
-                textposition="top center",
-                textfont=dict(size=14, color='#2C3E50'),
-                textangle=45,  # Angle the text for better readability
-                showlegend=False,
-                hoverinfo='skip'
+        
+        # Add angled annotations
+        annotations = []
+        for i, row in df.iterrows():
+            annotations.append(
+                dict(
+                    x=row['date'],
+                    y=row['count'],
+                    text=row['description'],
+                    showarrow=False,
+                    textangle=45,
+                    font=dict(size=14, color='#2C3E50'),
+                    xanchor='left',
+                    yanchor='bottom'
+                )
             )
-        )
+        
+        fig.update_layout(annotations=annotations)
         
         # Clean layout
         fig.update_layout(
