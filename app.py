@@ -115,14 +115,20 @@ if run_check and name:
          
         
         st.subheader("📊 Issue Timeline")
-        fig = px.bar(
+        fig = px.scatter(
             df,
             x="date",
             y="count",
             hover_data=["description", "severity"],
             labels={"count": "Issue Count"},
             title="History of Issues",
-            height=1000
+            height=1000,
+            size_max=15
+        )
+        
+        # Make points bigger and more visible
+        fig.update_traces(
+            marker=dict(size=12, line=dict(width=2, color='white'))
         )
         
         # Add angled annotations
@@ -135,9 +141,10 @@ if run_check and name:
                     text=row['description'],
                     showarrow=False,
                     textangle=45,
-                    font=dict(size=14, color='#2C3E50'),
+                    font=dict(size=12, color='#2C3E50'),
                     xanchor='left',
-                    yanchor='bottom'
+                    yanchor='bottom',
+                    yshift=10  # Move text slightly up from the point
                 )
             )
         
