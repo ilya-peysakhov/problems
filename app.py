@@ -15,6 +15,7 @@ GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini
 # -------------------------
 # Helper functions
 # -------------------------
+@st.cache_data(ttl='1hr')
 def fetch_issues(name):
     headers = {
         "Content-Type": "application/json",
@@ -121,7 +122,7 @@ if run_check and name:
                 hover_data=["description", "severity"],
                 labels={"count": "Issue Count"},
                 title="History of Issues",
-                height=1000,
+                height=500,
                 markers=True
             )
     
