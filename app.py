@@ -113,7 +113,8 @@ if run_check and name:
             st.subheader("🚨 Risk Assessment")
             st.markdown(f"### {risk_color}\n{message}")
          
-        
+        st.subheader("Data")
+        st.dataframe(df,hide_index=True)
         st.subheader("📊 Issue Timeline")
         fig = px.scatter(
             df,
